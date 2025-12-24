@@ -1,6 +1,16 @@
+<script setup lang="ts">
+import AppHeader from "./components/AppHeader.vue";
+import AppFooter from "./components/AppFooter.vue";
+</script>
+
 <template>
-  <div>
+  <div class="flex flex-col min-h-screen bg-[#f8fafc]">
     <NuxtRouteAnnouncer />
-    <NuxtWelcome />
+
+    <AppHeader />
+
+    <NuxtPage />
+
+    <AppFooter />
   </div>
 </template>
