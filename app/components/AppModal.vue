@@ -1,11 +1,19 @@
 <script lang="ts" setup>
-defineProps<{
+const { isOpen } = defineProps<{
   isOpen: boolean;
 }>();
 
 defineEmits<{
-  (e: "close"): void;
+  (e: "update:isOpen", value: boolean): void;
 }>();
+
+watchEffect(() => {
+  if (isOpen) {
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "";
+  }
+});
 </script>
 
 <template>
@@ -16,7 +24,7 @@ defineEmits<{
   >
     <div
       class="absolute inset-0 bg-black/40 backdrop-blur-sm"
-      @click="$emit('close')"
+      @click="$emit('update:isOpen', false)"
     />
 
     <div
@@ -26,7 +34,7 @@ defineEmits<{
       style="max-height: 92vh"
     >
       <button
-        @click="$emit('close')"
+        @click="$emit('update:isOpen', false)"
         class="absolute top-4 right-4 z-50 bg-white/90 backdrop-blur-md p-2 rounded-full shadow-lg text-gray-500 hover:text-gray-900 transition-all active:scale-90"
         aria-label="Close"
       >

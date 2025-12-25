@@ -1,10 +1,20 @@
 <script setup lang="ts">
-import { productsGet, categoriesGet, productsByCategoryGet } from "../api/products";
-import type { Category, SortOption } from "../types";
+import {
+  productsGet,
+  categoriesGet,
+  productsByCategoryGet,
+  categoriesGetPath,
+  productsByCategoryGetPath,
+  productsGetPath,
+} from "../api/products";
+import type { Category, Product, SortOption } from "../types";
 import FilterSortBar from "../components/FilterSortBar.vue";
 import FilterButton from "../components/FilterButton.vue";
-import ProductCard from "../components/ProductCard.vue";
+import ProductCard from "../components/ProductCardVertical.vue";
 import ProductCardSkeleton from "../components/ProductCardSkeleton.vue";
+import { useCart } from "../stores/useCart";
+
+const cart = useCart();
 
 const limit = ref(100);
 const selectedCategory = ref("all");
@@ -15,25 +25,28 @@ const {
   pending: categoriesPending,
   error: categoriesError,
   execute: categoriesExecute,
-} = await useAsyncData("categories", () => categoriesGet());
+} = await useLazyFetch<Category[]>(categoriesGetPath, {
+  cache: "force-cache",
+});
+
 const {
   data: productsResponse,
   pending: productsPeding,
   error: productsError,
   execute: productsExecute,
-} = await useAsyncData(
-  `products?category=${selectedCategory.value}`,
+} = await useLazyFetch<{ products: Product[]; total: number }>(
   () => {
     // console.log("selectedCategory:", selectedCategory.value);
 
     if (selectedCategory.value !== "all") {
-      return productsByCategoryGet(selectedCategory.value);
+      return productsByCategoryGetPath(selectedCategory.value);
     }
 
-    return productsGet(30);
+    return productsGetPath(30);
   },
   {
     watch: [selectedCategory],
+    cache: "force-cache",
   }
 );
 
@@ -46,6 +59,8 @@ const refetch = () => {
     productsExecute();
   }
 };
+
+const log = (...arg: unknown[]) => console.log(...arg);
 </script>
 
 <template>
@@ -84,11 +99,27 @@ const refetch = () => {
 
       <template v-else>
         <template v-if="!productsError && !categoriesError">
-          <ProductCard
+          <template
             v-for="product in productsResponse?.products"
             :key="product.id"
-            :product="product"
-          />
+          >
+            <ProviderBoolean>
+              <template #default="{ value: isOpen, setValue: setIsOpen }">
+                <ProductCard
+                  :product="product"
+                  @add-to-cart="cart.quantityIncrease(product)"
+                  @click="setIsOpen(true)"
+                />
+
+                <AppModal
+                  :is-open="isOpen"
+                  @update:is-open="setIsOpen($event)"
+                >
+                  <ProductCardDetail :product="product" />
+                </AppModal>
+              </template>
+            </ProviderBoolean>
+          </template>
         </template>
 
         <template v-else>

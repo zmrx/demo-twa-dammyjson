@@ -5,6 +5,7 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
+    "local": "nuxt dev --host",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
@@ -14,9 +15,11 @@
     "@nuxt/fonts": "^0.12.1",
     "@nuxt/hints": "^1.0.0-alpha.4",
     "@nuxt/image": "^2.0.0",
+    "@pinia/nuxt": "^0.11.3",
     "@tailwindcss/vite": "^4.1.18",
     "eslint": "^9.39.2",
     "nuxt": "^4.2.2",
+    "pinia": "^3.0.4",
     "tailwindcss": "^4.1.18",
     "vue": "^3.5.25",
     "vue-router": "^4.6.4"

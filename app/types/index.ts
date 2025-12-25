@@ -19,3 +19,8 @@ export interface Category {
 }
 
 export type SortOption = "price-asc" | "price-desc" | "rating-desc" | "default";
+
+export type CartProduct = {
+  product: Product;
+  quantity: number;
+};

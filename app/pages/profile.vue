@@ -1,12 +1,12 @@
+<script lang="ts" setup>
+
+</script>
+
 <template>
   <AppWrapper>
     profile
   </AppWrapper>
 </template>
-
-<script lang="ts" setup>
-
-</script>
 
 <style>
 
