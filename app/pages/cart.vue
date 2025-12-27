@@ -78,7 +78,7 @@ const cart = useCart();
           </div>
         </div>
         <button
-          class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-bold shadow-xl shadow-indigo-100 active:scale-[0.98] transition-all"
+          class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-bold shadow-xl shadow-indigo-100 active:scale-[0.98] transition-all cursor-pointer"
         >
           Checkout Now
         </button>

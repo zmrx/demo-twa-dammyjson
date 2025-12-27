@@ -1,16 +1,15 @@
 <script lang="ts" setup>
 import IconStar from "./IconStar.vue";
-import IconPlus from "./IconPlus.vue";
-import IconMinus from "./IconMinus.vue";
 import type { Product } from "~/types";
 import { useCart } from "~/stores/useCart";
+import ProductCardQuantityButton from "./ProductCardQuantityButton.vue";
 
 const { product } = defineProps<{
   product: Product;
 }>();
 
 defineEmits<{
-  (e: "click"): void;
+ (e: "click"): void;
 }>();
 
 const cart = useCart();
@@ -25,14 +24,6 @@ const productTotalPriceToFixed = computed(() => productTotalPrice.value.toFixed(
 
 const addToCart = () => {
   cart.quantityIncrease(product);
-};
-
-const increaseQuantity = () => {
-  cart.quantityIncrease(product);
-};
-
-const decreaseQuantity = () => {
-  cart.quantityDecrease(product);
 };
 </script>
 
@@ -75,7 +66,7 @@ const decreaseQuantity = () => {
         {{ product.title }}
       </h3>
 
-      <div class="mt-auto">
+      <div class="mt-auto flex flex-col">
         <div class="flex items-baseline gap-1.5">
           <span class="text-lg font-bold text-gray-900">${{ product.price }}</span>
 
@@ -87,36 +78,20 @@ const decreaseQuantity = () => {
           </span>
         </div>
 
-        <div
-          v-if="productInCart"
-          class="mt-3 p-2 bg-indigo-600 rounded-xl text-xs flex items-center justify-between gap-2"
-        >
-          <button
-            class="w-6 h-6 rounded-lg bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition cursor-pointer active:scale-[0.9]"
-            @click.stop="decreaseQuantity"
-          >
-            <IconMinus class="w-4 h-4 text-gray-900" />
-          </button>
+        <ProductCardQuantityButton
+          :quantity="productInCart?.quantity ?? 0"
+          @increase="cart.quantityIncrease(product)"
+          @decrease="cart.quantityDecrease(product)"
+          class="mt-3 self-end"
+        />
 
-          <span class="text-sm font-semibold text-white w-6 text-center">
-            {{ productInCart.quantity }}
-          </span>
-
-          <button
-            class="w-6 h-6 rounded-lg bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition cursor-pointer active:scale-[0.9]"
-            @click.stop="increaseQuantity"
-          >
-            <IconPlus class="w-4 h-4 text-gray-900" />
-          </button>
-        </div>
-
-        <button
+        <!-- <button
           v-else
           class="w-full mt-3 bg-indigo-600 text-white text-sm font-semibold p-2.5 rounded-xl hover:bg-black transition cursor-pointer active:scale-[0.9]"
           @click.stop="addToCart"
         >
           Add to cart
-        </button>
+        </button> -->
       </div>
     </div>
   </div>

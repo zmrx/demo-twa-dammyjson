@@ -119,7 +119,7 @@ const onClose = () => {
 
       <!-- Sticky-like footer within the scrollable modal -->
       <div
-        class="absolute z-50 bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-100 p-6 flex items-center justify-between pb-8"
+        class="absolute z-50 bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-100 p-4 flex items-center justify-between pb-8"
       >
         <div>
           <p class="text-xs text-gray-400 font-medium">Price</p>
@@ -133,9 +133,13 @@ const onClose = () => {
             </span>
           </div>
         </div>
-        <div v-if="productInCart" class="mt-3 p-2 bg-indigo-600 rounded-xl text-xs flex items-center justify-between gap-2">
+
+        <div
+          v-if="productInCart"
+          class="mt-3 p-1 bg-indigo-600 rounded-xl text-xs flex items-center justify-between gap-2"
+        >
           <button
-            class="w-6 h-6 rounded-lg bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition cursor-pointer active:scale-[0.9]"
+            class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition cursor-pointer active:scale-[0.9]"
             @click="decreaseQuantity"
           >
             <IconMinus class="w-4 h-4 text-gray-900" />
@@ -146,7 +150,7 @@ const onClose = () => {
           </span>
 
           <button
-            class="w-6 h-6 rounded-lg bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition cursor-pointer active:scale-[0.9]"
+            class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition cursor-pointer active:scale-[0.9]"
             @click="increaseQuantity"
           >
             <IconPlus class="w-4 h-4 text-gray-900" />
@@ -169,5 +173,3 @@ const onClose = () => {
     </div>
   </div>
 </template>
-
-<style></style>

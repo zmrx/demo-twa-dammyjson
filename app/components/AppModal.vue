@@ -53,10 +53,6 @@ watchEffect(() => {
         </svg>
       </button>
 
-      <div class="absolute top-0 left-0 right-0 h-1.5 flex justify-center items-center z-30 pt-4">
-        <div class="w-12 h-1.5 bg-gray-100 rounded-full" />
-      </div>
-
       <div class="overflow-y-auto max-h-[92vh] no-scrollbar">
         <slot />
       </div>

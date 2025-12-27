@@ -62,9 +62,7 @@ const decreaseQuantity = () => {
     <!-- Content section -->
     <div class="p-2 flex flex-col flex-1">
       <div class="flex justify-between items-start mb-1">
-        <div
-          class="text-[10px] text-indigo-600 font-semibold uppercase tracking-wider mb-1"
-        >
+        <div class="text-[10px] text-indigo-600 font-semibold uppercase tracking-wider mb-1">
           {{ product.category }}
         </div>
 
@@ -80,7 +78,7 @@ const decreaseQuantity = () => {
         {{ product.title }}
       </h3>
 
-      <div class="mt-auto">
+      <div class="mt-auto flex flex-col">
         <div class="flex items-baseline gap-1.5">
           <span class="text-lg font-bold text-gray-900">${{ product.price }}</span>
 
@@ -92,36 +90,12 @@ const decreaseQuantity = () => {
           </span>
         </div>
 
-        <div
-          v-if="productInCart"
-          class="mt-3 p-2 bg-indigo-600 rounded-xl text-xs flex items-center justify-between gap-2"
-        >
-          <button
-            class="w-6 h-6 rounded-lg bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition cursor-pointer active:scale-[0.9]"
-            @click.stop="decreaseQuantity"
-          >
-            <IconMinus class="w-4 h-4 text-gray-900" />
-          </button>
-
-          <span class="text-sm font-semibold text-white w-6 text-center">
-            {{ productInCart.quantity }}
-          </span>
-
-          <button
-            class="w-6 h-6 rounded-lg bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition cursor-pointer active:scale-[0.9]"
-            @click.stop="increaseQuantity"
-          >
-            <IconPlus class="w-4 h-4 text-gray-900" />
-          </button>
-        </div>
-
-        <button
-          v-else
-          class="w-full mt-3 bg-indigo-600 text-white text-sm font-semibold p-2.5 rounded-xl hover:bg-black transition cursor-pointer active:scale-[0.9]"
-          @click.stop="addToCart"
-        >
-          Add to cart
-        </button>
+        <ProductCardQuantityButton
+          :quantity="productInCart?.quantity ?? 0"
+          @increase="cart.quantityIncrease(product)"
+          @decrease="cart.quantityDecrease(product)"
+          class="mt-3 self-end"
+        />
       </div>
     </div>
   </div>
