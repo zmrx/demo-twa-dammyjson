@@ -12,10 +12,21 @@ export default defineNuxtConfig({
     plugins: [tailwindcss()],
   },
 
-  image: {
-    provider: "netlify",
-    domains: ["demo-twa-dammyjson.netlify.app", "cdn.dummyjson.com"],
-  },
+  image: (() => {
+    if (import.meta.env.NODE_ENV === "development") {
+      return {
+        provider: "none",
+      };
+    }
+
+    return {
+      provider: "none",
+      domains: ["demo-twa-dammyjson.netlify.app", "cdn.dummyjson.com"],
+      quality: 80,
+      format: ["webp", "jpeg", "png"],
+      densities: [1, 2],
+    };
+  })(),
 
   modules: [
     // "@nuxt/hints",
