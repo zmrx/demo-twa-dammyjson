@@ -12,6 +12,10 @@ export default defineNuxtConfig({
     plugins: [tailwindcss()],
   },
 
+  image: {
+    provider: "netlify",
+  },
+
   modules: [
     // "@nuxt/hints",
     "@nuxt/eslint",
