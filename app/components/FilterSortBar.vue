@@ -23,7 +23,7 @@ const onChange = (e: Event) => {
       <div class="flex items-center justify-between mb-4">
         <h1 class="text-2xl font-bold text-gray-900">Discover</h1>
 
-        <div class="relative">
+        <!-- <div class="relative">
           <select
             :value="sortBy"
             @change="onChange($event)"
@@ -38,7 +38,7 @@ const onChange = (e: Event) => {
           <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
             <IconSort class="w-4 h-4 text-gray-400" />
           </div>
-        </div>
+        </div> -->
       </div>
 
       <div class="overflow-x-auto no-scrollbar flex gap-2 pb-2">
