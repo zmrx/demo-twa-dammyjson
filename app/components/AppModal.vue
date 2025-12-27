@@ -14,6 +14,10 @@ watchEffect(() => {
     document.body.style.overflow = "";
   }
 });
+
+onUnmounted(() => {
+  document.body.style.overflow = "";
+})
 </script>
 
 <template>
