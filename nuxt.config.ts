@@ -14,7 +14,7 @@ export default defineNuxtConfig({
 
   image: {
     provider: "netlify",
-    domains: ["demo-twa-dammyjson.netlify.app"],
+    domains: ["demo-twa-dammyjson.netlify.app", "cdn.dummyjson.com"],
   },
 
   modules: [
