@@ -9,7 +9,7 @@ const { product } = defineProps<{
 }>();
 
 defineEmits<{
- (e: "click"): void;
+  (e: "click"): void;
 }>();
 
 const cart = useCart();
@@ -53,6 +53,14 @@ const addToCart = () => {
         <IconStar class="w-3 h-3 text-yellow-500" />
         {{ product.rating }}
       </div>
+
+      <ProductCardQuantityButton
+        size="medium"
+        :quantity="productInCart?.quantity ?? 0"
+        @increase="cart.quantityIncrease(product)"
+        @decrease="cart.quantityDecrease(product)"
+        class="absolute right-4 bottom-4"
+      />
     </div>
 
     <div class="p-2 flex flex-col flex-1">
@@ -77,13 +85,6 @@ const addToCart = () => {
             ${{ productTotalPriceToFixed }}
           </span>
         </div>
-
-        <ProductCardQuantityButton
-          :quantity="productInCart?.quantity ?? 0"
-          @increase="cart.quantityIncrease(product)"
-          @decrease="cart.quantityDecrease(product)"
-          class="mt-3 self-end"
-        />
 
         <!-- <button
           v-else
