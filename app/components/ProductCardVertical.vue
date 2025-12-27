@@ -55,7 +55,7 @@ const addToCart = () => {
       </div>
 
       <ProductCardQuantityButton
-        size="medium"
+        size="small"
         :quantity="productInCart?.quantity ?? 0"
         @increase="cart.quantityIncrease(product)"
         @decrease="cart.quantityDecrease(product)"
