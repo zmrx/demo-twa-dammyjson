@@ -12,13 +12,46 @@ import FilterSortBar from "../components/FilterSortBar.vue";
 import FilterButton from "../components/FilterButton.vue";
 import ProductCard from "../components/ProductCardVertical.vue";
 import ProductCardSkeleton from "../components/ProductCardSkeleton.vue";
+import Pagination from "../components/Pagination.vue";
 import { useCart } from "../stores/useCart";
 
 const cart = useCart();
 
-const limit = ref(100);
+// Pagination parameters
+const page = ref(1);
+const limit = ref(12); // Number of products per page
 const selectedCategory = ref("all");
 const sortBy = ref<SortOption>("default");
+
+// Watch for category changes to reset pagination
+watch(selectedCategory, () => {
+  page.value = 1; // Reset to first page when category changes
+});
+
+// Sync pagination state with URL
+const route = useRoute();
+watchEffect(() => {
+  const urlPage = parseInt(route.query.page as string) || 1;
+  const urlLimit = parseInt(route.query.limit as string) || 12;
+  
+  page.value = urlPage;
+  limit.value = urlLimit;
+});
+
+// Update URL when pagination changes
+watch([page, limit], ([newPage, newLimit]) => {
+  const currentQuery = { ...route.query };
+  currentQuery.page = newPage.toString();
+  currentQuery.limit = newLimit.toString();
+  
+  if (newPage === 1) delete currentQuery.page; // Remove page from URL if it's 1
+  if (newLimit === 12) delete currentQuery.limit; // Remove limit from URL if it's default
+  
+  navigateTo({
+    path: route.path,
+    query: currentQuery
+  });
+});
 
 const {
   data: categories,
@@ -36,16 +69,20 @@ const {
   execute: productsExecute,
 } = await useLazyFetch<{ products: Product[]; total: number }>(
   () => {
-    // console.log("selectedCategory:", selectedCategory.value);
+    const params = {
+      page: page.value,
+      limit: limit.value,
+      sort: sortBy.value
+    };
 
     if (selectedCategory.value !== "all") {
-      return productsByCategoryGetPath(selectedCategory.value);
+      return productsByCategoryGetPath(selectedCategory.value, params);
     }
 
-    return productsGetPath(30);
+    return productsGetPath(params);
   },
   {
-    watch: [selectedCategory],
+    watch: [selectedCategory, page, limit, sortBy],
     cache: "force-cache",
   }
 );
@@ -139,4 +176,14 @@ const log = (...arg: unknown[]) => console.log(...arg);
       </template>
     </div>
   </AppWrapper>
+  
+  <!-- Pagination component -->
+  <div v-if="productsResponse?.total && productsResponse.total > limit" class="mt-8 flex justify-center">
+    <Pagination
+      :current-page="page"
+      :total-items="productsResponse.total"
+      :items-per-page="limit"
+      @page-change="(newPage) => page = newPage"
+    />
+  </div>
 </template>
